@@ -16,6 +16,10 @@ class BSTNode {
         RightChild = null;
         this.color = color;
     }
+
+    public boolean isLeaf() {
+        return LeftChild == null && RightChild == null;
+    }
 }
 
 // промежуточный результат поиска
@@ -176,6 +180,24 @@ class BST {
         }
         if (nodeForDelete.Parent.RightChild != null && nodeForDelete.Parent.RightChild.equals(nodeForDelete)) {
             nodeForDelete.Parent.RightChild = null;
+        }
+    }
+
+    public void connectWithOtherTree(BST secondTree) {
+        List<BSTNode> firstTreeNodes = WideAllNodes();
+        List<BSTNode> secondTreeNodes = secondTree.WideAllNodes();
+        firstTreeNodes.removeIf(node -> !node.isLeaf());
+        secondTreeNodes.removeIf(node -> !node.isLeaf());
+        for (BSTNode firstTreeNode : firstTreeNodes) {
+            for (BSTNode secondTreeNode : secondTreeNodes) {
+                if (firstTreeNode.LeftChild == null) {
+                    firstTreeNode.LeftChild = secondTreeNode;
+                    continue;
+                }
+                if (firstTreeNode.RightChild == null) {
+                    firstTreeNode.RightChild = secondTreeNode;
+                }
+            }
         }
     }
 
